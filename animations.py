@@ -166,7 +166,7 @@ class Background:
     bounds = 74
     x = 800
     y = 600
-    frames = [pygame.image.load("UI/sprites/background.png"), pygame.image.load("UI/sprites/background.png"),pygame.image.load("UI/sprites/background.png"),pygame.image.load("UI/sprites/background.png"),pygame.image.load("UI/sprites/background.png"), pygame.image.load("UI/sprites/background.png"), pygame.image.load("UI/sprites/background.png")]
+    frames = [pygame.image.load("UI/sprites/background0.png"), pygame.image.load("UI/sprites/background1.png"),pygame.image.load("UI/sprites/background2.png"),pygame.image.load("UI/sprites/background3.png"),pygame.image.load("UI/sprites/background4.png"), pygame.image.load("UI/sprites/background5.png"), pygame.image.load("UI/sprites/background6.png")]
 
     def getframe(self):
         return self.frame
@@ -215,7 +215,7 @@ def main():
     # enemyY_change = []
     num_of_enemies = 6
 
-    global bulletImg 
+    global bulletImg
     global bulletX
     global bulletY
     global bulletX_change
@@ -285,6 +285,7 @@ def main():
         screen.fill((0, 0, 0))
         # Background Image
         screen.blit(background.frames[background.frame], (0, 0))
+        background.update_frame()
         playerX_change = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -371,9 +372,10 @@ def main():
         player(playerX, playerY)
         show_score(textX, testY)
 
-        background.update_frame()
+
 
         pygame.display.update()
 
 if __name__ == "__main__":
     main()
+
