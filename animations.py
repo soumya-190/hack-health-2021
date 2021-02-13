@@ -4,6 +4,12 @@ import random
 import pygame
 from pygame import mixer
 
+bulletImg = pygame.image.load('UI/sprites/sanitizer.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 10
+bullet_state = "ready"
 
 class Player:
     frame = 0
@@ -174,6 +180,7 @@ class Background:
                 self.frame = 0
 
 def main():
+
     # Intialize the pygame
     pygame.init()
 
@@ -208,6 +215,12 @@ def main():
     # enemyY_change = []
     num_of_enemies = 6
 
+    global bulletImg 
+    global bulletX
+    global bulletY
+    global bulletX_change
+    global bulletY_change
+    global bullet_state
     for i in range(num_of_enemies):
         evilarr.append(Enemy())
         evilarr[i].update_pos(random.randint(0, 736), random.randint(50, 150))
@@ -222,12 +235,7 @@ def main():
     # Ready - You can't see the bullet on the screen
     # Fire - The bullet is currently moving
 
-    bulletImg = pygame.image.load('UI/sprites/sanitizer.png')
-    bulletX = 0
-    bulletY = 480
-    bulletX_change = 0
-    bulletY_change = 10
-    bullet_state = "ready"
+
 
     # Score
 
