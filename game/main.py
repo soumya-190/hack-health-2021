@@ -11,11 +11,11 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('background.png')
+# background = pygame.image.load('background.png')
 
 # Sound
-mixer.music.load("background.wav")
-mixer.music.play(-1)
+# mixer.music.load("background.wav")
+# mixer.music.play(-1)
 
 # Caption and Icon
 pygame.display.set_caption("Space Invader")
@@ -48,24 +48,28 @@ for i in range(num_of_enemies):
 # Ready - You can't see the bullet on the screen
 # Fire - The bullet is currently moving
 
+"""
 bulletImg = pygame.image.load('bullet.png')
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
 bulletY_change = 10
 bullet_state = "ready"
+"""
 
 # Score
 
+"""
 score_value = 0
 font = pygame.font.Font('freesansbold.ttf', 32)
 
 textX = 10
 testY = 10
+"""
 
 # Game Over
+"""
 over_font = pygame.font.Font('freesansbold.ttf', 64)
-
 
 def show_score(x, y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -75,7 +79,7 @@ def show_score(x, y):
 def game_over_text():
     over_text = over_font.render("GAME OVER", True, (255, 255, 255))
     screen.blit(over_text, (200, 250))
-
+"""
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -106,7 +110,8 @@ while running:
     # RGB = Red, Green, Blue
     screen.fill((0, 0, 0))
     # Background Image
-    screen.blit(background, (0, 0))
+    # screen.blit(background, (0, 0))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
