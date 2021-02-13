@@ -20,6 +20,8 @@ class Player:
     posy = 500+32
     hitx = 64
     hity = 64
+    vx = 0
+    vy = 0
 
     def gethitbox(self):
         return self.hitx, self.hity
@@ -55,6 +57,13 @@ class Player:
     def damaging(self):
         if self.damage and not self.mask:
             self.health -= self.damagevalue
+
+    def getspeed(self):
+        return self.vx, self.vy
+    def setspeedx(self, x):
+        self.vx = x
+    def setspeedy(self, y):
+        self.vy = y
 
 
 class Enemy:
@@ -277,12 +286,14 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     #player1.update_pos(-5,0)
-                    playerX_change = -5
+                    player1.setspeedx(-5)
+                    #playerX_change = -5
                 if event.key == pygame.K_RIGHT:
                     #player1.update_pos(5,0)
-                    playerX_change = 5
+                    #playerX_change = 5
+                    player1.setspeedx(5)
                 if event.key == pygame.K_SPACE:
-                    if bullet_state is "ready":
+                    if bullet_state == "ready":
                         bulletSound = mixer.Sound("UI/game/laser.wav")
                         bulletSound.play()
                         # Get the current x cordinate of the spaceship
@@ -292,9 +303,10 @@ def main():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    playerX_change = 0
+                    player1.setspeedx(0)
 
         playerX, playerY = player1.getpos()
+        playerX_change, playerY_change = player1.getspeed()
         playerX += playerX_change
         if playerX <= 0:
             playerX = 0
@@ -344,7 +356,7 @@ def main():
             bulletY = 480
             bullet_state = "ready"
 
-        if bullet_state is "fire":
+        if bullet_state == "fire":
             fire_bullet(bulletX, bulletY)
             bulletY -= bulletY_change
 
