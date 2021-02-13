@@ -20,6 +20,8 @@ class Player:
     posy = 500+32
     hitx = 64
     hity = 64
+    vx = 0
+    vy = 0
 
     def gethitbox(self):
         return self.hitx, self.hity
@@ -32,6 +34,12 @@ class Player:
 
     def ismask(self):
         return self.mask
+    def getspeed(self):
+        return self.vx, self.vy
+    def setspeedx(self, x):
+        self.vx = x
+    def setspeedy(self, y):
+        self.vy = y
 
 
 
@@ -164,6 +172,19 @@ class Background:
             if self.frame == self.maxframe:
                 self.frame = 0
 
+# Masks
+maskImg = []
+maskX = []
+maskY = []
+maskY_change = []
+num_of_masks = 8
+
+for i in range(num_of_masks):
+    maskImg.append(pygame.image.load('UI/sprites/mask.png'))
+    maskX.append(random.randint(0, 736))
+    maskY.append(random.randint(50, 150))
+    maskY_change.append(50)
+
 def main():
     # Intialize the pygame
     pygame.init()
@@ -175,8 +196,8 @@ def main():
     background = Background()
 
     # Sound
-    mixer.music.load("UI/game/background.wav")
-    mixer.music.play(-1)
+    #mixer.music.load("UI/game/background.wav")
+    #mixer.music.play(-1)
 
     # Caption and Icon
     pygame.display.set_caption("Smash Covid")
@@ -242,6 +263,9 @@ def main():
     def player(x, y):
         screen.blit(player1.frames[player1.frame], (x, y))
         player1.update_frame()
+    
+    def mask(x, y, i):
+        screen.blit(maskImg[i], (x, y))
 
     def enemy(x, y, i):
         screen.blit(evilarr[i].frames[evilarr[i].frame], (x, y))
@@ -277,12 +301,12 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     #player1.update_pos(-5,0)
-                    playerX_change = -5
+                    player1.setspeedx(-5)
                 if event.key == pygame.K_RIGHT:
                     #player1.update_pos(5,0)
-                    playerX_change = 5
+                    player1.setspeedx(-5)
                 if event.key == pygame.K_SPACE:
-                    if bullet_state is "ready":
+                    if bullet_state == "ready":
                         bulletSound = mixer.Sound("UI/game/laser.wav")
                         bulletSound.play()
                         # Get the current x cordinate of the spaceship
@@ -292,9 +316,10 @@ def main():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    playerX_change = 0
+                    player1.setspeedx(0)
 
         playerX, playerY = player1.getpos()
+        playerX_change, playerY_change = player1.getspeed()
         playerX += playerX_change
         if playerX <= 0:
             playerX = 0
@@ -317,6 +342,7 @@ def main():
             enemyX_change, enemyY_change = evilarr[i].getspeed()
             enemyX += enemyX_change
             enemyY += 0.1
+            maskY[i] += 0.5
 
             if enemyX <= 0:
                 evilarr[i].setspeedx(4)
@@ -338,13 +364,14 @@ def main():
             enemy(enemyX, enemyY, i)
             evilarr[i].posx = enemyX
             evilarr[i].posy = enemyY
+            mask(maskX[i], maskY[i], i)
 
         # Bullet Movement
         if bulletY <= 0:
             bulletY = 480
             bullet_state = "ready"
 
-        if bullet_state is "fire":
+        if bullet_state == "fire":
             fire_bullet(bulletX, bulletY)
             bulletY -= bulletY_change
 
